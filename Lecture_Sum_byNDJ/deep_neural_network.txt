@@ -1,0 +1,27 @@
+AND,OR는 선형으로 구분이 가능하지만, XOR는 구분이 되지 않음.
+XOR를 어떻게 구분할까?
+     한 사람이 MLP (Multilayer Perceptrons)를 통해서 XOR 문제를 해결 가능하다고 주장.
+     단, 레이어들은 학습이 불가능하다고 해서 많은 사람들 실망.
+     No one on earth had found a viable way to train.(W,b 관련 학습이 불가능)
+     결론적으로 Back Propagation을 통해서 해결.(Hinton이라는 사람) (=Re-discovery)
+     label을 정해놓고, forward 한 다음 예측값과 결과값이 다른 경우 뒤로 돌아가면서 학습.(backward)
+
+CNN(Convolutional Neural Networks)
+     tv를 통해서 고양이에게 이미지를 보여주고, 이 과정에서 고양이의 뇌를 관찰.
+     특정 이미지에 따라서 활성화되는 뉴런이 각각 다르다는 것을 발견.
+     일부 부분부분 담당하는 신경망들이 조합되는 방식이다 -> CNN
+     그림이 있으면, 한번에 Neural Network 입력 시키는 것이 아니라.
+     부분부분을 잘라서 보낸다음, 나중에 합치는 네트워크를 개발한 것. (CNN는 알파고도 사용하는 방식)
+
+Backpropagaion이 복잡한 문제에서는 별 효과가 없다는 문제점 발생. (몇개 안되는 레이어들은 잘 동작함)
+     10여개 이상의 레이어 학습을 해야 하기 때문에, 에러를 뒤로 보낼 때 에러가 잘 전파되지 않는 문제 발생.
+     -> 그렇기 때문에, 학습을 많이 할 수록 성능이 떨어지는 문제 발생.
+
+Breakthrough
+     여러 레이어를 포함하는 뉴럴 네트워크는 가중치들을 초기화하면 복잡한 문제 해결이 가능하다.
+     Deep Nets, Deep Learning
+
+ImageNet(그림을 주고, 그림이 무엇인지 컴퓨터에게 맞추게 하는 것)
+ImageNet Classification(매년마다 오답률을 낮추면서 발전하고 있음)
+
+Deep API Learning -> API를 자동 예측하게 해주자.

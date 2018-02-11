@@ -1,0 +1,50 @@
+수업 핵심 : 뉴럴 네트워크와 딥러닝을 잘 이해하는 것.
+
+Linear Regression(선형회귀)
+     선형방정식 형태로 값을 예측하는 것.
+     Hypothesis - Linear 형태로(WX)
+     Cost - cost(W) = 시그마((가설 - 실제 데이터)^2) / m
+     Cost Function은 U자형 그래프, 경사하강 알고리즘과 관련됨.
+     W := W - a * (a/aW) * cost(W) -> 즉 결론적으로 학습을 많이 거칠 시, cost는 0으로 수렴함.
+     a : 한 스텝의 사이즈(=learning_rate)
+
+Classification
+     이전의 회귀는 숫자를 단순 예측.
+     이것은 Binary Classification[두개중 한 개 고르기]
+     ex. Spam Detection : Spam or Ham, Facebook feed : show or hide,
+
+- 0,1 Encoding과 관련됨. 예로 Spam Detection에서 Spam은 1, Ham은 0, Facebook feed에서 show는 1, hide는 0
+- Radiology(이미지를 보고 나쁜 tumor인지, 좋은 tumor인지)
+
+- 이전 시장 동향을 통한 주식 학습
+- y = WX 선형회귀 시스템에서 문제 - ex. 합격/불합격 기준 선이 데이터에 따라서 왔다갔다 하는 경우가 있다.
+- Classification에서는 0 또는 1 데이터값이 나와야 한다. H(x) = Wx + b 에서는 데이터 값이 1보다 매우 크거나, 0보다 작은 경우가 나옴.
+- H(x) = Wx + b 결과값을 0과 1 사이로 압축시켜주는 함수가 별도로 필요하다. (Sigmoid Function)
+- Sigmoid Function( g(z) = 1 / (1 + exp(-z)))
+- Z = WX, H(x) = g(Z)
+- Sigmoid Function에 맞는 Cost Function
+    - log 함수를 사용하는 것이 기본.
+    - cost(W) = 시그마(c(H(x),y))  / m
+    - c(H(x),y) - -log(H(x)) : y = 1
+    - c(H(x),y) - -log(1-H(x)) : y = 0
+    - y : 1, H(x) = 1 -> cost : 0
+    - y : 0, H(x) = 0 -> cost : 0
+    - y : 0, H(x) = 1 -> cost : 굉장히 커진다.
+- cost 함수 값은 실제 데이터값과 예측 값이 커지면 커지고, 작아지면 작아진다.
+- cost를 0에 가깝게 하기 위해, W를 변경시키면서 진행한다.
+- cost function
+    - c(H(x),y) = ylog(H(x))+(1-y)log(1-H(x))
+    - cost(W) = -시그마(c(H(x),y)/m
+- minimize cost - gradient descent algorithm(경사하강법)
+    - a : learning rate, 하강폭
+    - W := W - a * (d/dW)(cost(W)) // cost 함수를 미분하고 a를 곱한 값을 W에서 뺀다.
+    - tensorflow에서는 tf.train.GradientDescentOptimizer를 사용한다.
+- Training Data
+    - y값은 binary classification에 따라서 0 또는 1로 분류.
+    - x_data는 multi-array가 가능함.
+
+- 머신러닝을 활용한 질병 예측
+    - Classifying Diabetes(당뇨병)
+    - lab-05-02 예제
+
+

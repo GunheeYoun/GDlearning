@@ -1,0 +1,82 @@
+H(x) = WX (선형함수)
+Z = H(X), g(Z) 결과값은 0과 1 사이. (선형 함수의 결과값을 0과 1 사이로 제한하는 함수 -> Sigmoid Function)
+Sigmoid Function (1 / (1 + exp(-z)))
+
+Hyper-plane : 두 종류 데이터를 구분하는 선 만들기를 학습.
+Multinomial classification : 여러 형태의 데이터를 활용하여 여러값을 형태로 분류
+ex. A,B,C 학점을 나눌 때, (C or not, B or not, A or not 선을 순서대로 학습)
+그렇지만 선을 여러개 만드는 건 생각보다 복잡. 결론 가중치 행렬의 행을 늘린다.
+[[Wa1,Wa2,Wa3],[Wb1,Wb2,Wb3],[Wc1,Wc2,Wc3]] * [x1, x2, x3]
+
+우리가 원하는 것 -> Sigmoid(결과값이 0에서 1 사이의 값으로 산출)
+Logistic Classifier(WX = Y)
+
+각 value 값 (0~1), value 값의 총합은 1
+y[2.0,1.0,0.1] ->(Sigmoid사용) -> [0.7,0.2,0.1] -> (ONE-HOT ENCODING) -> (1.0,0.0,0.0)
+ONE HOT ENCODING - 가장 가중치가 큰 값을 1.0으로 설정, 나머지는 0.0으로 설정
+
+우리가 예측한 값과 실제값이 얼마나 차이나는지 -> Cost Function
+Cross Entropy
+S(Y) = 가중치 값 / 가중치 값들의 합.
+S(Y) - 예측값, L - 정답
+D(S,L) = -시그마(Li * log(Si))
+
+위와 같이 예측값과 실제값 차이를 Cross Entropy 비용 함수로 표현
+
+Logistic Cost Vs Cross Entropy
+C(H(x),y) = ylog(H(x))-(1-y)log(1-H(x))
+D(S,L) = -시그마(Li * log(Si))
+Cost Function = -시그마(Li * log(Si)) / n (n : 트레이닝 set에서 데이터의 개수)
+Gradient Descent Algorithm = Cost 함수가 밥그릇 형태로 구성됨. -a * 미분값. (a : learning rate, 미분값은 경사면을 의미)
+
+두개의 비교점을 찾아보시오.
+
+Softmax - 여러개의 class를 예측할 때 유리하다.
+Softmax classification
+
+Scores -> Softmax function -> Probablities
+점수들을 각각 기준의 가중치로 0.***로 구분한다.
+
+One Hot Encoding -> 3개의 label을 가지는 경우, 가장 큰 값을 가진 label만 선택한다.
+
+y값 내의 원소의 개수 -> label의 개수.
+nb_classes -> label의 개수 변수 명칭.
+
+여러개의 classifier는 복잡한 문제를 가짐 -> 긴 Matrix를 만든다.
+
+Logistic Classifier XW = Y ->(Sigmoid를 통해 선형 회귀 결과값을 0~1 사이 값 가중치 비율로 바꾸어 바림)
+
+Cost Function ( Cross - Entropy)
+
+D(S,L) = -시그마(Li*log(Si))
+Si는 선형회귀 함수 결과를 시그모이드 함수로 통해 얻은 결과값. 여기서 Li는 One-Hot-Encoding을 통해서 얻은 각 label당 결과값(이 값은 1 혹은 0만 됨)
+
+SoftMax를 통한 딥러닝 알고리즘 전반적 과정
+
+- XW = Y
+- Sigmoid (a,b,c -> 전체에 대한 각각에 대한 비율로 0~1 사이 값으로 바꿈)
+- 2번의 결과값에 대한 One Hot Encoding을 적용하여 가장 큰 결과를 가진 label 값만 1로 수정, 나머지는 0으로
+- Cost 함수 적용.(Cross-Entropy)
+
+- 경사하강법을 통해서 훈련.(optimizer(..).minimize(cost))
+
+softmax_cross_entropy_with_logits (항상 logits을 넣어야 가능하다)
+     logits은 Y를 의미한다.
+     logits = tf.matmul(X,W)+b
+     hypothesis = tf.nn.softmax(logits)
+     cost_i = tf.nn.softmax_cross_entropy_with_logits(logits=logits,labels=Y_one_hot)
+cost = tf.reduce_mean(cost_i)
+
+Softmax를 활용한 분류 예제 -> Animal Classification
+다리가 몇개, 꼬리가 몇개 인지 확인하여 종을 예측하는 학습.
+
+<lab>
+Y = tf.placeholder(tf.int32, [None,1]) # 1은 한자리 수를 의미하고, None은 n개를 의미
+Y_one_hot = tf.one_hot(Y, nb_classes)
+nb_classes는 label의 개수를 의미
+여기까지만 하면 에러가 발생. (아래를 추가해야 함)
+one_hot 함수가 인풋 rank N개 인 경우, 아웃풋 rank는 N+1로 한 차원 늘려서 산출한다.
+Y_one_hot = tf.reshape(Y_one_hot,[-1,nb_classes])
+
+y_data.flatten() -> [[1],[0]] 데이터 형태를 [1,0] 이렇게 해준다.
+zip(pred,y_data.flatten()) 각각의 element를 p,y로 넘겨주게 하기 위해 사용. (p : 예측값, y : 데이터값)

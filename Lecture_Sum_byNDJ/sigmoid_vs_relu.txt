@@ -1,0 +1,108 @@
+10-1 Sigmoid보다 ReLU가 더 낫다.
+
+9개의 layers(Wide and Deep Network)
+W1 = tf.Variable(tf.random_normal([2,5],-1.0,1.0),name="Weight1")
+W2 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight2")
+
+W3 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight3")
+
+W4 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight4")
+
+W5 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight5")
+
+W6 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight6")
+
+W7 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight7")
+
+W8 = tf.Variable(tf.random_normal([5,5],-1.0,1.0),name="Weight8")
+
+W9 = tf.Variable(tf.random_normal([5,1],-1.0,1.0),name="Weight9")
+
+b1 = tf.Variable(tf.zeros([5]),name = "Bias1")
+b2 = tf.Variable(tf.zeros([5]),name = "Bias2")
+
+b3 = tf.Variable(tf.zeros([5]),name = "Bias3")
+
+b4 = tf.Variable(tf.zeros([5]),name = "Bias4")
+
+b5 = tf.Variable(tf.zeros([5]),name = "Bias5")
+
+b6 = tf.Variable(tf.zeros([5]),name = "Bias6")
+
+b7 = tf.Variable(tf.zeros([5]),name = "Bias7")
+
+b8 = tf.Variable(tf.zeros([5]),name = "Bias8")
+
+b9 = tf.Variable(tf.zeros([1]),name = "Bias9")
+
+L1 = tf.sigmoid(tf.matmul(X,W1)+b1)
+L2 = tf.sigmoid(tf.matmul(L1,W2)+b2)
+L3 = tf.sigmoid(tf.matmul(L2,W3)+b3)
+
+L4 = tf.sigmoid(tf.matmul(L3,W4)+b4)
+
+L5 = tf.sigmoid(tf.matmul(L4,W5)+b5)
+
+L6 = tf.sigmoid(tf.matmul(L5,W6)+b6)
+
+L7 = tf.sigmoid(tf.matmul(L6,W7)+b7)
+
+L8 = tf.sigmoid(tf.matmul(L7,W8)+b8)
+
+hypothesis = tf.sigmoid(tf.matmul(L8,W9)+b9)
+
+(별도의 시각화 작업이 필요하다면)
+with tf.name_scope("layer1") as scope:
+     L1 = tf.sigmoid(tf.matmul(X,W1)+b1)
+with tf.name_scope("layer2") as scope:
+
+     L2 = tf.sigmoid(tf.matmul(L1,W2)+b2)
+with tf.name_scope("layer3") as scope:
+
+     L3 = tf.sigmoid(tf.matmul(L2,W3)+b3)
+with tf.name_scope("layer4") as scope:
+
+     L4 = tf.sigmoid(tf.matmul(L3,W4)+b4)
+with tf.name_scope("layer5") as scope:
+
+     L5 = tf.sigmoid(tf.matmul(L4,W5)+b5)
+with tf.name_scope("layer6") as scope:
+
+     L6 = tf.sigmoid(tf.matmul(L5,W6)+b6)
+with tf.name_scope("layer7") as scope:
+
+     L7 = tf.sigmoid(tf.matmul(L6,W7)+b7)
+with tf.name_scope("layer8") as scope:
+
+     L8 = tf.sigmoid(tf.matmul(L7,W8)+b8)
+with tf.name_scope("last") as scope:
+
+     hypothesis = tf.sigmoid(tf.matmul(L8,W9)+b9)
+
+Backpropagation
+-  각 요소에 대한 미분이 필수적.
+
+Hinton의 분석
+- We used the wrong type non-linearity.
+
+
+Sigmoid 의 문제점
+- 데이터 값의 크기가 0~1 사이 값이기 때문에, 곱하기 연산을 하게 되면 점점 미분결과값이 작아지는 문제 발생.
+- 위에 현상을 Vanishing Gradient라고 함.
+
+ReLU(Rectified Linear Unit)
+
+x -> Sigmoid -> ReLU -> Y
+
+ex.
+L1 = tf.sigmoid(tf.matmul(X,W1) + b1)
+위에 것을 아래 것으로 바꿔주면 됨.
+L1 = tf.nn.relu(tf.matmul(X,W1)+b1)
+
+앞으로 Wide and Deep Network에서는 Sigmoid 보다는 ReLU를 사용한다.
+다만, 마지막 레이어의 결과값은 Sigmoid를 사용하도록 한다.
+ReLU를 사용하게 되면 결과적으로 경사하강이 잘 이뤄진다는 것을 발견.
+
+Leaky ReLU (max(0.1x,x))
+ELU x가 0보다 크면 x, 0보다 작으면 알파 * (exp(x) - 1)
+

@@ -1,0 +1,52 @@
+x[hours] y[scores]
+x시간 대비 y 결과를 얻는다. (0-100점 사이)
+x - 10 -> y - 90
+x - 9 -> y - 80
+x - 3 -> y - 50
+x - 2 -> y - 30
+트레이닝 데이터를 활용해서 Regression Model로 학습을 한다.
+
+H(x) = Wx + b
+즉, 학습을 한다는 의미는 W와 b값을 조정해서 cost function 값을 최소로 하는 것. (비용을 최대로 줄이는 것)
+
+build graph -> sess.run을 통해서 그래프를 실행 -> 실행 후에는 결과를 업데이트 혹은 return
+
+H(x) = Wx + b
+cost(W,b) = 시그마((예측값 - 기준)^2) / m (m은 데이터의 개수)
+
+example. W = 1, b = 0;
+
+cost(W) 함수는 주로 U자형 이차곡선으로 구성되어 있다.
+
+How to minimize cost?
+- 기계적으로 찾아야 한다.
+- Gradient Descent Algorithm(경사하강 알고리즘)
+- Gradient : 경사, Descent : 하강
+- W[x],  Cost[y] 로 구성된 그래프에서 cost 가 0에 제일 가까운 점을 기계적으로 찾아야 한다.
+
+(Gradient Descent Algorithm)
+0에 제일 가까운 점을 어떻게 찾을까?
+- Start 0,0 시작
+- W와 b값을 바꾸면서 비용을 줄임.
+-> 이를 계속 반복
+-> 경사를 어떻게 구하는지 (미분)
+
+Cost Formal Definition
+Cost(W) = 시그마((Wx-y)^2) / m
+Cost(W) = 시그마((Wx-y)^2) / 2m
+
+W := W - a * (a / aW) * cost(W)
+W := W - a / m * (시그마([Wx - y]*x))
+a : learning rate 보통 0.01
+
+미분은 크게 걱정할 필요 x
+-> Derivative Calculator 활용
+
+Gradient Descent Algorithm을 통해서 Cost를 최소화 할 수 있고, 이것이 바로 선형회귀를 통한 모델 학습이다.
+
+Convex Function (Cost, W, b 3차원 그래프)
+- 밥그릇처럼 3차원 그래프가 구성되어 있음(Cost, W, b)
+- Cost(W,b) = 시그마((H(x)-y)^2) / m
+- 어떤 지점에서 출발을 하더라도, Cost가 0에 도달할 수 있다.
+- Cost function 설계 시, 이것이 Convex Function이 되는지 안되는지 확인을 해야 한다.
+www.holehouse.org/mlclass/
